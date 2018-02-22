@@ -1,0 +1,5 @@
+node_modules
+debug
+package-lock.json
+wwwroot/css/
+wwwroot/js/

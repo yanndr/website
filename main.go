@@ -31,7 +31,7 @@ func main() {
 	templates := populateTemplates()
 
 	mux := http.NewServeMux()
-	n := negroni.Classic() // Includes some default middlewares
+	n := negroni.New(negroni.NewRecovery(), negroni.NewLogger(), negroni.NewStatic(http.Dir("wwwroot/public")))
 	n.UseHandler(mux)
 
 	controller.Startup(mux, templates)

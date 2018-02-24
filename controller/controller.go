@@ -27,6 +27,6 @@ func Startup(mux *http.ServeMux, templates map[string]*template.Template) {
 	aboutController.template = templates["about.html"]
 	aboutController.registerRoutes(mux)
 	// http.Handle("/img/", http.FileServer(http.Dir("public")))
-	http.Handle("/css/", http.FileServer(http.Dir("wwwroot")))
-	http.Handle("/js/", http.FileServer(http.Dir("wwwroot")))
+	//http.Handle("/css/", http.FileServer(http.Dir("wwwroot")))
+	//http.Handle("/js/", http.FileServer(http.Dir("wwwroot")))
 }

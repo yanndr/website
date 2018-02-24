@@ -1,0 +1,47 @@
+.splash{
+    margin-bottom: 2em;
+    font-weight: bold;
+    
+    p{
+        padding: 1em;
+    }
+
+    img{
+        float: left;
+        max-width: 6em;
+        border-radius: 25%;
+        margin: 1em; 
+    }
+}
+
+.page{
+    min-height: 640px;
+    padding: 2em 0;
+    &.bounce-up  {
+        opacity: 0;
+        transition: all 700ms ease-out;
+        transform: translate3d(0px, 200px, 0px);
+        backface-visibility: hidden;
+        &.in-view{
+            opacity: 1;
+            transform: translate3d(0px, 0px, 0px);
+        }
+    }
+      
+}
+
+
+
+
+  
+  
+
+.page1{
+    background-color: #102026;
+    color:#A9C5E6;
+}
+
+.page2{
+    background-color: #72726A;
+    color:white;
+}

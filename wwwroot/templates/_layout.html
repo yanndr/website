@@ -15,16 +15,15 @@
 
   <body>
     {{template "_header.html" .}}
-    <main role="main" class="container some-class">
-        {{template "content" .}}
-    </main>
+    
+    {{template "content" .}}
+    
     {{template "_footer.html" .}}
     {{block "scripts" .}}{{end}}
 
-      <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="js/bundle.js"></script>
+
+    <script src="js/lib.bundle.min.js"></script>
+    <script src="js/app.bundle.min.js"></script>
     
     <script>
     Holder.addTheme('thumb', {

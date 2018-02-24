@@ -3,6 +3,9 @@ package controller
 import (
 	"log"
 	"net/http"
+	"time"
+
+	"github.com/yanndr/website/viewmodel"
 )
 
 type home struct {
@@ -15,7 +18,11 @@ func (h home) registerRoutes(mux *http.ServeMux) {
 }
 
 func (h home) handleHome(w http.ResponseWriter, r *http.Request) {
-	err := h.template.Execute(w, nil)
+
+	vm := &viewmodel.Home{YearOfXp: time.Now().Year() - 2001}
+
+	err := h.template.Execute(w, vm)
+
 	if err != nil {
 		log.Println("error ", err)
 	}

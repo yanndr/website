@@ -1,7 +1,29 @@
 {{define "content"}}
-
-    <h1>This is my h1 Title</h1>
-    
-    <p>Lorem ipsum dolor sit amet, vidit minimum omittantur no est, mei duis postulant ex. Et his iudico nominati iudicabit, purto numquam at mel, an meliore docendi efficiantur eam. Id vim dolorem cotidieque. Usu an justo primis facete, suas tibique cu pri. Labore quidam regione vix id, vis legimus fastidii ad, agam abhorreant an eam. Ut qui libris laoreet corrumpit, doctus platonem ex qui.</p>
-  <p>Has eirmod labitur ex, cum utinam assentior ea, cum elitr nobis voluptatibus eu. Cu graeci mentitum partiendo mea, eu audire adipisci mea. Ei duis decore aperiri mei. Quem vivendo persecuti an duo, nonumy tritani duo in. Veniam graece consequuntur mel ut. Ea vis appetere persecuti, id mundi corpora sed. In quem simul tollit vel, qui equidem commune delicata in.</p>
+<main role="main" class="container-fluid"></main>
+  <div class="splash">
+    <img src="/img/me.jpg" alt="picture of me" />
+    <p>Hi, I am Yann Druffin, I am a software developer based in Vancouver BC, Canada. I have {{.YearOfXp}} years of experience in the industry.</p>
+  </div>
+  
+  <div class="scroll-me">
+    <div class="page page1" >
+        <div class="container">
+          <div class="row">
+            <div class="col-md">
+              <h2>C# is the language that I used the most</h2>
+            </div>
+            <div calss="col-md">
+              <p>Here some example</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    <div class="page page2 bounce-up" >
+        <h2>Go is my favorite language</h2>
+    </div>
+    <p class="bounce-up" >Lorem ipsum dolor sit amet, vidit minimum omittantur no est, mei duis postulant ex. Et his iudico nominati iudicabit, purto numquam at mel, an meliore docendi efficiantur eam. Id vim dolorem cotidieque. Usu an justo primis facete, suas tibique cu pri. Labore quidam regione vix id, vis legimus fastidii ad, agam abhorreant an eam. Ut qui libris laoreet corrumpit, doctus platonem ex qui.</p>
+  </div>
+ 
+</main>
+  
 {{end}}

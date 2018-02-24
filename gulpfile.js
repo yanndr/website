@@ -18,7 +18,7 @@ gulp.task('sass', function() {
       browsers: ['last 2 versions', 'ie >= 9']
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('wwwroot/css'));
+    .pipe(gulp.dest('wwwroot/public/css'));
 });
 
 gulp.task('default', ['sass'], function() {

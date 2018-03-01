@@ -7,9 +7,10 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Yann Druffin</title>
 
     <!-- Bootstrap core CSS -->
+    <link href="/css/vendors/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="/css/app.css" rel="stylesheet">
   </head>
 
@@ -21,8 +22,10 @@
     {{template "_footer.html" .}}
     {{block "scripts" .}}{{end}}
 
-
-    <script src="js/lib.bundle.min.js"></script>
+    <script src="js/vendors/jquery/jquery.slim.min.js"></script>
+    <script src="js/vendors/popper.js/popper.min.js"></script>
+    <script src="js/vendors/bootstrap/bootstrap.min.js"></script>
+    <script src="js/vendors/jquery.scrollme.js"></script>
     <script src="js/app.bundle.min.js"></script>
     
     <script>

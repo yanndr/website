@@ -35,7 +35,7 @@ function check_if_in_view() {
       $element.removeClass('on-bottom');
     }
     if ((element_top_position <  window_bottom_position-100) && (element_top_position >  window_top_position+100)){
-      console.log(window_bottom_position+"-"+ window_top_position)
+      // console.log(window_bottom_position+"-"+ window_top_position)
       $element.addClass('on-middle');
     }
     else{

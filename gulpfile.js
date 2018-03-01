@@ -24,3 +24,30 @@ gulp.task('sass', function() {
 gulp.task('default', ['sass'], function() {
   gulp.watch(['wwwroot/scss/**/*.scss'], ['sass']);
 });
+
+gulp.task('vendors',function(done){
+  console.log('Copying jquery');
+    gulp.src([
+      './node_modules/jquery/dist/*.js'
+    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/jquery/'));
+
+    console.log('Copying bootstrap');
+    gulp.src([
+      './node_modules/bootstrap/dist/css/*.*'
+    ]).pipe(gulp.dest('./wwwroot/public/css/vendors/bootstrap/'));
+
+    gulp.src([
+      './node_modules/bootstrap/dist/js/*.*'
+    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/bootstrap/'));
+
+    console.log('Copying popper.js');
+    gulp.src([
+      './node_modules/popper.js/dist/*.*'
+    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/popper.js/'));
+    
+    console.log('Copying scrollme.js');
+    gulp.src([
+      './wwwroot/vendors/*.js'
+    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/'));
+
+})

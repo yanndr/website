@@ -1,4 +1,3 @@
-
 .page{
     min-height: 300px;
     padding: 2em 0;    
@@ -9,50 +8,44 @@
     }
 }
 
-.bounce-up  {
-    opacity: 0;
-    transition: all 700ms ease-out;
-    transform: translate3d(0px, 200px, 0px);
-    backface-visibility: hidden;
-    &.in-view{
-        opacity: 1;
-        transform: translate3d(0px, 0px, 0px);
-    }
-}  
 
-.bounce-left{
-    opacity: 0;
-    transition: all 700ms ease-out;
-    transform: translate3d(-200px, 0px, 0px);
-    backface-visibility: hidden;
-    &.on-middle{
-        opacity: 1;
-        transform: translate3d(0px, 0px, 0px);
-    }
+.intro{
+    background: #102026;
+    
+    overflow: hidden;
+    z-index: 50;
 }
 
-.bounce-right{
-    opacity: 0;
-    transition: all 700ms ease-out;
-    transform: translate3d(200px, 0px, 0px);
-    backface-visibility: hidden;
-    &.on-middle{
-        opacity: 1;
-        transform: translate3d(0px, 0px, 0px);
-    }
+.connection{
+    background: linear-gradient(to bottom,transparent,rgb(16, 32, 38) );
+    min-height: 50px;
 }
 
-.page0{
+.introduction{
+    text-align: center;
+    color: #443A37;
+    padding:1em;
+    background: url("/img/IMG_2715.JPG")  center center no-repeat;
+    background-size: cover;
+    height:60vw;
+    min-height: 440px;
+    max-height: 800px;
     img{
         max-width: 6em;
         border-radius:50%;
-        //margin: 1em; 
     }
+
 }
 
+
 .page1{
+    .vancouver{
+        opacity: 0;
+    }
+
     background-color: #102026;
     color:#A9C5E6;
+    z-index: 55;
 }
 
 .page2{

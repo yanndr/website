@@ -15,3 +15,15 @@ build:
 # Builds the project
 linux:
 	GOOS=linux go build ${LDFLAGS} -o ${BINARY}
+
+image:
+	gulp webpack
+	gulp sass
+	gulp vendors
+	GOOS=linux go build ${LDFLAGS} -o ${BINARY}
+	rm -fr dist
+	mkdir dist
+	cp website dist/
+	cp -r templates dist/templates
+	cp -r public dist/public
+	docker build -t my-website .

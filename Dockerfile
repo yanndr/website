@@ -1,6 +1,4 @@
 FROM debian:jessie-slim
-COPY templates/ /website/templates
-COPY public/ /website/public
-COPY website /website
+COPY dist/ /website
 WORKDIR "/website/"
 ENTRYPOINT [ "/website/website" ]

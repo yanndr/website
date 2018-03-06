@@ -1,0 +1,15 @@
+.navbar{
+    transition: all 700ms ease-out;
+    background-color: $nav-color;
+    a{
+        color:$nav-a-color;
+        transition: all 700ms ease-out;
+    }
+}
+
+.changed{
+    background-color: $nav-color-changed;
+    a{
+        color:$nav-a-color-changed;
+    }
+}

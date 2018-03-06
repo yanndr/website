@@ -1,0 +1,53 @@
+
+
+body{
+    font-family: 'PT Sans', sans-serif;
+    color:$font-color;
+}
+
+h1, h2{
+    margin-top:1em;
+    &:first-child{
+        margin-top:0;
+    }
+}
+
+h2{
+    font-size: 26px;
+}
+
+
+.bounce{
+    opacity: 0;
+    transition: all 700ms ease-out;
+    backface-visibility: hidden;
+    &.viewed{
+        opacity: 1;
+        transform: translate3d(0px, 0px, 0px);
+    }
+}
+
+.bounce-left{
+    @extend .bounce; 
+    transform: translate3d(-200px, 0px, 0px);  
+}
+
+.bounce-up{
+    @extend .bounce; 
+    transform: translate3d(0px, 200px, 0px);  
+}
+
+.bkg{
+    &-weather{
+        background-image: url(/img/weather.png);
+    }
+    &-paisley{
+        background-image: url(/img/paisley.png);
+    }
+    &-swirl{
+        background-image: url(/img/swirl_pattern.png);
+    }
+    &-skulls{
+        background-image: url(/img/skulls.png);
+    }
+}

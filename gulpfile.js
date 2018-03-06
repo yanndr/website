@@ -7,7 +7,7 @@ var sassPaths = [
 ];
 
 gulp.task('sass', function() {
-  return gulp.src('wwwroot/scss/app.scss')
+  return gulp.src(['src/scss/app.scss','src/scss/bootstrap.scss'])
     .pipe($.sourcemaps.init())
     .pipe($.sass({
       includePaths: sassPaths,
@@ -18,36 +18,36 @@ gulp.task('sass', function() {
       browsers: ['last 2 versions', 'ie >= 9']
     }))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('wwwroot/public/css'));
+    .pipe(gulp.dest('public/css'));
 });
 
 gulp.task('default', ['sass'], function() {
-  gulp.watch(['wwwroot/scss/**/*.scss'], ['sass']);
+  gulp.watch(['src/scss/**/*.scss'], ['sass']);
 });
 
 gulp.task('vendors',function(done){
   console.log('Copying jquery');
     gulp.src([
-      './node_modules/jquery/dist/*.js'
-    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/jquery/'));
+      './node_modules/jquery/dist/*min.js'
+    ]).pipe(gulp.dest('./public/js/'));
 
-    console.log('Copying bootstrap');
-    gulp.src([
-      './node_modules/bootstrap/dist/css/*.*'
-    ]).pipe(gulp.dest('./wwwroot/public/css/vendors/bootstrap/'));
+    // console.log('Copying bootstrap');
+    // gulp.src([
+    //   './node_modules/bootstrap/dist/css/*.*'
+    // ]).pipe(gulp.dest('./public/css/vendors/bootstrap/'));
 
     gulp.src([
-      './node_modules/bootstrap/dist/js/*.*'
-    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/bootstrap/'));
+      './node_modules/bootstrap/dist/js/*min.js'
+    ]).pipe(gulp.dest('./public/js'));
 
     console.log('Copying popper.js');
     gulp.src([
-      './node_modules/popper.js/dist/*.*'
-    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/popper.js/'));
+      './node_modules/popper.js/dist/*min.*'
+    ]).pipe(gulp.dest('./public/js/'));
     
     console.log('Copying scrollme.js');
     gulp.src([
-      './wwwroot/vendors/*.js'
-    ]).pipe(gulp.dest('./wwwroot/public/js/vendors/'));
+      './src/vendors/*.js'
+    ]).pipe(gulp.dest('./public/js/'));
 
 })

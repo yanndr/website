@@ -7,6 +7,16 @@
             "type": "gulp",
             "task": "default",
             "problemMatcher": []
+        },
+        {
+            "type": "gulp",
+            "task": "vendors",
+            "problemMatcher": []
+        },
+        {
+            "type": "gulp",
+            "task": "sass",
+            "problemMatcher": []
         }
     ]
 }

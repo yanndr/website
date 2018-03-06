@@ -1,0 +1,115 @@
+#index-container{
+
+    .intro{
+        background: #257A97;
+        
+        overflow: hidden;
+        z-index: 50;
+    }
+    
+    
+    .introduction{
+        color: $intro-color-text;
+        padding:10em 1em;
+        background: url("/img/IMG_2733.JPG")  center center no-repeat;
+        background-size: cover;
+        height:60vw;
+        min-height: 440px;
+        max-height: 800px;
+        img{
+            max-width: 6em;
+            border-radius:50%;
+        }
+        a{
+            font-size: 3em;
+            color: $intro-color-text;
+            &:hover{
+                color: lighten($intro-color-text,25);
+            }
+        }
+    
+        ul{
+            list-style-type: none;
+            padding: 0;
+            li{
+                display: inline;
+                margin: 0 1em;
+            }
+            
+        }
+    
+    }
+    
+    .page{
+        background-attachment: fixed;
+        min-height: 300px;
+        padding: 8em 0;    
+    
+        img{
+            max-width: 200px;
+            max-height: 200px;
+        }
+    }
+    
+    .page1{
+       p{
+           font-size: 1.5em;
+       } 
+       
+    }
+    
+    .page2{
+        .lang-img{
+            img{
+                max-height: 50px;
+            }
+        }
+        ul{
+            list-style: none;
+            
+            li{
+                font-size: 2em;
+                //&::before{
+                //     background-color: fuchsia;
+                //     content: "";
+                //     border-radius: 50%;
+                //     display: inline-block;
+                //     color: #fff;
+                //     font-size: 16px;
+                //     height: 32px;
+                //     line-height: 32px;
+                //     margin: 0 10px 0 -42px;
+                //     text-align: center;
+                //     width: 32px;
+                //}
+                &:nth-child(1) {
+                    transform: translate3d(-200px,0px, 0px); 
+                    &.viewed{
+                        transform: translate3d(0px,0px, 0px); 
+                    }
+                }
+                &:nth-child(2) {
+                    transform: translate3d(-300px,0px, 0px); 
+                    &.viewed{
+                        transform: translate3d(0px,0px, 0px); 
+                    }
+                }
+                &:nth-child(3) {
+                    transform: translate3d(-400px,0px, 0px); 
+                    &.viewed{
+                        transform: translate3d(0px,0px, 0px); 
+                    }
+                }
+            }
+
+            
+        }
+        
+    }
+    
+    .page3{
+        
+    }
+}
+
+

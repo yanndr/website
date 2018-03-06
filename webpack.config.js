@@ -3,10 +3,10 @@ var path = require('path');
 
 module.exports = {
   entry:{ 
-    app: './wwwroot/app/app.js',
+    app: './src/js/app.js',
   },
   output: {
-    path: path.resolve(__dirname, 'wwwroot/public/js'),
+    path: path.resolve(__dirname, './public/js'),
     filename: '[name].bundle.min.js'
    }
   // plugins: [

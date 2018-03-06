@@ -13,8 +13,7 @@ import (
 
 	"github.com/kelseyhightower/envconfig"
 	"github.com/urfave/negroni"
-
-	"github.com/yanndr/website/controller"
+	"github.com/yanndr/website/viewmodel"
 )
 
 func main() {
@@ -31,10 +30,28 @@ func main() {
 	templates := populateTemplates()
 
 	mux := http.NewServeMux()
-	n := negroni.New(negroni.NewRecovery(), negroni.NewLogger(), negroni.NewStatic(http.Dir("wwwroot/public")))
+	n := negroni.New(negroni.NewRecovery(), negroni.NewLogger(), negroni.NewStatic(http.Dir("public")))
 	n.UseHandler(mux)
 
-	controller.Startup(mux, templates)
+	mux.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
+		vm := &viewmodel.Home{YearOfXp: time.Now().Year() - 2001}
+
+		err := templates["home.html"].Execute(w, vm)
+
+		if err != nil {
+			log.Println("error ", err)
+		}
+	})
+
+	mux.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {
+		vm := &viewmodel.Home{YearOfXp: time.Now().Year() - 2001}
+
+		err := templates["about.html"].Execute(w, vm)
+
+		if err != nil {
+			log.Println("error ", err)
+		}
+	})
 
 	srv := &http.Server{Addr: ":" + config.Port, Handler: n}
 
@@ -64,9 +81,9 @@ var lastModTime = time.Unix(0, 0)
 func populateTemplates() map[string]*template.Template {
 
 	result := make(map[string]*template.Template)
-	const basePath = "wwwroot/templates"
+	const basePath = "templates"
 	layout := template.Must(template.ParseFiles(basePath + "/_layout.html"))
-	template.Must(layout.ParseFiles(basePath+"/_header.html", basePath+"/_footer.html"))
+	template.Must(layout.ParseFiles(basePath+"/_nav.html", basePath+"/_footer.html"))
 	dir, err := os.Open(basePath + "/content")
 	if err != nil {
 		panic("Failed to open template blocks directory: " + err.Error())

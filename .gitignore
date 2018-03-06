@@ -1,5 +1,5 @@
 node_modules
 debug
 package-lock.json
-wwwroot/public/css/
-wwwroot/public/js/
+public/css/
+public/js/

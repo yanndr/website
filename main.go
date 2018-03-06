@@ -11,6 +11,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/julienschmidt/httprouter"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/urfave/negroni"
 	"github.com/yanndr/website/viewmodel"
@@ -22,42 +23,30 @@ var Version = "No Version Provided"
 //Build is the GitHash of the Program.
 var Build = "No GitHash Provided"
 
+var templates map[string]*template.Template
+
 func main() {
 
 	var config struct {
-		Port string `default:"8080"`
+		Port      string `default:"8080"`
+		Templates string `default:"templates"`
 	}
+
 	if err := envconfig.Process("", &config); err != nil {
 		log.Print(err)
 		//envconfig.Usage("", &config)
 		os.Exit(1)
 	}
 
-	templates := populateTemplates()
+	templates = populateTemplates(config.Templates)
 
-	mux := http.NewServeMux()
+	mux := httprouter.New()
 	n := negroni.New(negroni.NewRecovery(), negroni.NewLogger(), negroni.NewStatic(http.Dir("public")))
 	n.UseHandler(mux)
 
-	mux.HandleFunc("/home", func(w http.ResponseWriter, r *http.Request) {
-		vm := &viewmodel.Home{YearOfXp: time.Now().Year() - 2001}
-
-		err := templates["home.html"].Execute(w, vm)
-
-		if err != nil {
-			log.Println("error ", err)
-		}
-	})
-
-	mux.HandleFunc("/about", func(w http.ResponseWriter, r *http.Request) {
-		vm := &viewmodel.Home{YearOfXp: time.Now().Year() - 2001}
-
-		err := templates["about.html"].Execute(w, vm)
-
-		if err != nil {
-			log.Println("error ", err)
-		}
-	})
+	mux.GET("/", home)
+	mux.GET("/home", home)
+	mux.GET("/about", about)
 
 	srv := &http.Server{Addr: ":" + config.Port, Handler: n}
 
@@ -72,6 +61,16 @@ func main() {
 		}
 	}()
 
+	go func() {
+		for range time.Tick(300 * time.Millisecond) {
+			isUpdated := templateNeedUpdate(config.Templates)
+			if isUpdated {
+				log.Println("updating templates")
+				templates = populateTemplates(config.Templates)
+			}
+		}
+	}()
+
 	log.Println("Website version: ", Version, " - ", Build)
 	log.Printf("app is ready to listen and serve on port %s", config.Port)
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
@@ -83,12 +82,30 @@ func main() {
 
 }
 
+func home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	err := templates["home.html"].Execute(w, nil)
+
+	if err != nil {
+		log.Println("error ", err)
+	}
+}
+
+func about(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	vm := &viewmodel.Home{YearOfXp: time.Now().Year() - 2001}
+
+	err := templates["about.html"].Execute(w, vm)
+
+	if err != nil {
+		log.Println("error ", err)
+	}
+}
+
 var lastModTime = time.Unix(0, 0)
 
-func populateTemplates() map[string]*template.Template {
+func populateTemplates(basePath string) map[string]*template.Template {
 
 	result := make(map[string]*template.Template)
-	const basePath = "templates"
 	layout := template.Must(template.ParseFiles(basePath + "/_layout.html"))
 	template.Must(layout.ParseFiles(basePath+"/_nav.html", basePath+"/_footer.html"))
 	dir, err := os.Open(basePath + "/content")
@@ -117,4 +134,19 @@ func populateTemplates() map[string]*template.Template {
 		result[fi.Name()] = tmpl
 	}
 	return result
+}
+
+func templateNeedUpdate(basePath string) bool {
+	needUpdate := false
+
+	f, _ := os.Open(basePath)
+
+	fileInfos, _ := f.Readdir(-1)
+	for _, fi := range fileInfos {
+		if fi.ModTime().After(lastModTime) {
+			lastModTime = fi.ModTime()
+			needUpdate = true
+		}
+	}
+	return needUpdate
 }

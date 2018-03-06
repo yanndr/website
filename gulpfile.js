@@ -1,10 +1,25 @@
 var gulp = require('gulp');
 var $    = require('gulp-load-plugins')();
 var sourcemaps = require('gulp-sourcemaps');
+var webpack = require("webpack")
 
 var sassPaths = [
   'node_modules/bootstrap/scss'
 ];
+
+var wpconfig = require('./webpack.config.js');
+gulp.task("webpack", function(callback) {
+  console.log('webPack');
+    // run webpack
+    webpack(wpconfig
+    , function(err, stats) {
+        if(err) throw new gutil.PluginError("webpack", err);
+        console.log("[webpack]", stats.toString({
+            // output options
+        }));
+        callback();
+    });
+});
 
 gulp.task('sass', function() {
   return gulp.src(['src/scss/app.scss','src/scss/bootstrap.scss'])

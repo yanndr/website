@@ -16,6 +16,12 @@ import (
 	"github.com/yanndr/website/viewmodel"
 )
 
+//Version of the program.
+var Version = "No Version Provided"
+
+//Build is the GitHash of the Program.
+var Build = "No GitHash Provided"
+
 func main() {
 
 	var config struct {
@@ -23,7 +29,7 @@ func main() {
 	}
 	if err := envconfig.Process("", &config); err != nil {
 		log.Print(err)
-		envconfig.Usage("", &config)
+		//envconfig.Usage("", &config)
 		os.Exit(1)
 	}
 
@@ -66,6 +72,7 @@ func main() {
 		}
 	}()
 
+	log.Println("Website version: ", Version, " - ", Build)
 	log.Printf("app is ready to listen and serve on port %s", config.Port)
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
 		log.Printf("server failed: %v", err)

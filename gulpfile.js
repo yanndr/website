@@ -60,7 +60,7 @@ gulp.task('vendors',function(done){
       './node_modules/popper.js/dist/*min.*'
     ]).pipe(gulp.dest('./public/js/'));
     
-    console.log('Copying scrollme.js');
+    console.log('Copying vendors');
     gulp.src([
       './src/vendors/*.js'
     ]).pipe(gulp.dest('./public/js/'));

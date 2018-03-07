@@ -8,6 +8,9 @@
     {{if eq "*viewmodel.KnowledgePage" $type}}
         {{template "knowledge.html" .}}
     {{end}}
+    {{if eq "*viewmodel.WorkExperience" $type}}
+        {{template "work.html" .}}
+    {{end}}
     </div>
 </section>
 {{end}}

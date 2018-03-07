@@ -9,17 +9,19 @@ BUILD=`git rev-parse HEAD`
 LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
 
 # Builds the project
-build:
+build:dependencies
 	go build ${LDFLAGS} -o ${BINARY}
 
 # Builds the project
-linux:
+linux:dependencies
 	GOOS=linux go build ${LDFLAGS} -o ${BINARY}
 
-publish:
+dependencies:
 	gulp webpack
 	gulp sass
 	gulp vendors
+
+publish:dependencies
 	GOOS=linux go build ${LDFLAGS} -o ${BINARY}
 	rm -fr dist
 	mkdir dist

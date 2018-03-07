@@ -9,9 +9,10 @@
                 <h1>{{.Firstname}} {{.Lastname}}</h1>
                 <h2>{{.Title}}</h2>
                 <ul>
-                    <li><a href="https://github.com/yanndr"><i class="fab fa-github-square"></i></a></li>
-                    <li><a href="https://www.linkedin.com/in/yann-druffin-431b3823"><i class="fab fa-linkedin-in"></i></a></li>
-                    <li><a href="https://twitter.com/ydruffin"><i class="fab fa-twitter-square"></i></a></li>
+                    {{if .GithubURL}}<li><a href="{{.GithubURL}}"><i class="fab fa-github"></i></a></li>{{end}}
+                    {{if .LinkedinURL}}<li><a href="{{.LinkedinURL}}"><i class="fab fa-linkedin-in"></i></a></li>{{end}}
+                    {{if .TwitterURL}}<li><a href="{{.TwitterURL}}"><i class="fab fa-twitter"></i></a></li>{{end}}
+                    {{if .FacebookURL}}<li><a href="{{.FacebookURL}}"><i class="fab fa-facebook-f"></i></a></li>{{end}}
                 </ul>
                 
             </div> 

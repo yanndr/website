@@ -52,10 +52,10 @@
     }
     
     .page0{
-       p{
+        @extend .bkg-paisley;
+        p{
            font-size: 1.5em;
-       } 
-       
+        } 
     }
     
     .page1{

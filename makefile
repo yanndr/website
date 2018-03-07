@@ -16,7 +16,7 @@ build:
 linux:
 	GOOS=linux go build ${LDFLAGS} -o ${BINARY}
 
-image:
+publish:
 	gulp webpack
 	gulp sass
 	gulp vendors
@@ -26,4 +26,6 @@ image:
 	cp website dist/
 	cp -r templates dist/templates
 	cp -r public dist/public
+
+image: publish
 	docker build -t my-website .

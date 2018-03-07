@@ -1,3 +1,4 @@
+{{ define "base" }}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -12,8 +13,8 @@
         <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet"> 
     </head>
     <body>
-      {{template "_nav.html" .}}
-        {{ template "main" . }}
+        {{template "_nav.html" .}}
+        {{ template "content" . }}
         {{ block "footer" . }} {{ end }}
         <script defer src="/js/fontawesome-all.min.js"></script>
         <script src="/js/jquery.slim.min.js"></script>
@@ -23,6 +24,7 @@
         <script src="/js/app.bundle.min.js"></script>
   </body>
 </html>
+{{end}}
     
     
    

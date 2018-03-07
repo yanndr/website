@@ -3,11 +3,12 @@ package main
 import (
 	"context"
 	"html/template"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
 	"os/signal"
+	"path/filepath"
+	"reflect"
 	"syscall"
 	"time"
 
@@ -24,12 +25,13 @@ var Version = "No Version Provided"
 var Build = "No GitHash Provided"
 
 var templates map[string]*template.Template
+var mainTmpl = `{{define "main" }} {{ template "base" . }} {{ end }}`
 
 func main() {
 
 	var config struct {
 		Port      string `default:"8080"`
-		Templates string `default:"templates"`
+		Templates string `default:"templates/"`
 	}
 
 	if err := envconfig.Process("", &config); err != nil {
@@ -38,7 +40,17 @@ func main() {
 		os.Exit(1)
 	}
 
-	templates = populateTemplates(config.Templates)
+	//populateTemplates(config.Templates)
+
+	go func() {
+		for range time.Tick(300 * time.Millisecond) {
+			isUpdated := templateNeedUpdate(config.Templates)
+			if isUpdated {
+				log.Println("updating templates")
+				loadTemplates(config.Templates)
+			}
+		}
+	}()
 
 	mux := httprouter.New()
 	n := negroni.New(negroni.NewRecovery(), negroni.NewLogger(), negroni.NewStatic(http.Dir("public")))
@@ -61,16 +73,6 @@ func main() {
 		}
 	}()
 
-	go func() {
-		for range time.Tick(300 * time.Millisecond) {
-			isUpdated := templateNeedUpdate(config.Templates)
-			if isUpdated {
-				log.Println("updating templates")
-				templates = populateTemplates(config.Templates)
-			}
-		}
-	}()
-
 	log.Println("Website version: ", Version, " - ", Build)
 	log.Printf("app is ready to listen and serve on port %s", config.Port)
 	if err := srv.ListenAndServe(); err != http.ErrServerClosed {
@@ -84,7 +86,7 @@ func main() {
 
 func home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
-	err := templates["home.html"].Execute(w, nil)
+	err := templates["home.1.html"].Execute(w, viewmodel.VM)
 
 	if err != nil {
 		log.Println("error ", err)
@@ -92,9 +94,8 @@ func home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 }
 
 func about(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	vm := &viewmodel.Home{YearOfXp: time.Now().Year() - 2001}
 
-	err := templates["about.html"].Execute(w, vm)
+	err := templates["about.html"].Execute(w, nil)
 
 	if err != nil {
 		log.Println("error ", err)
@@ -103,37 +104,39 @@ func about(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
 var lastModTime = time.Unix(0, 0)
 
-func populateTemplates(basePath string) map[string]*template.Template {
+func loadTemplates(templateDir string) {
+	if templates == nil {
+		templates = make(map[string]*template.Template)
+	}
 
-	result := make(map[string]*template.Template)
-	layout := template.Must(template.ParseFiles(basePath + "/_layout.html"))
-	template.Must(layout.ParseFiles(basePath+"/_nav.html", basePath+"/_footer.html"))
-	dir, err := os.Open(basePath + "/content")
+	layoutFiles, err := filepath.Glob(templateDir + "shared/" + "*.html")
 	if err != nil {
-		panic("Failed to open template blocks directory: " + err.Error())
+		log.Fatal(err)
 	}
-	fis, err := dir.Readdir(-1)
+
+	includeFiles, err := filepath.Glob(templateDir + "*.html")
 	if err != nil {
-		panic("Failed to read contents of content directory: " + err.Error())
+		log.Fatal(err)
 	}
-	for _, fi := range fis {
-		f, err := os.Open(basePath + "/content/" + fi.Name())
-		if err != nil {
-			panic("Failed to open template '" + fi.Name() + "'")
-		}
-		content, err := ioutil.ReadAll(f)
-		if err != nil {
-			panic("Failed to read content from file '" + fi.Name() + "'")
-		}
-		f.Close()
-		tmpl := template.Must(layout.Clone())
-		_, err = tmpl.Parse(string(content))
-		if err != nil {
-			panic("Failed to parse contents of '" + fi.Name() + "' as template")
-		}
-		result[fi.Name()] = tmpl
+
+	mainTemplate := template.New("main")
+
+	mainTemplate, err = mainTemplate.Parse(mainTmpl)
+	if err != nil {
+		log.Fatal(err)
 	}
-	return result
+	for _, file := range includeFiles {
+		fileName := filepath.Base(file)
+		files := append(layoutFiles, file)
+		templates[fileName], err = mainTemplate.Clone()
+		if err != nil {
+			log.Fatal(err)
+		}
+		templates[fileName] = template.Must(templates[fileName].ParseFiles(files...))
+	}
+
+	log.Println("templates loading successful")
+
 }
 
 func templateNeedUpdate(basePath string) bool {
@@ -142,11 +145,21 @@ func templateNeedUpdate(basePath string) bool {
 	f, _ := os.Open(basePath)
 
 	fileInfos, _ := f.Readdir(-1)
+
 	for _, fi := range fileInfos {
+		if fi.IsDir() {
+			if templateNeedUpdate(basePath + fi.Name() + "/") {
+				return true
+			}
+		}
 		if fi.ModTime().After(lastModTime) {
 			lastModTime = fi.ModTime()
 			needUpdate = true
 		}
 	}
 	return needUpdate
+}
+
+func Type(obj interface{}) string {
+	return reflect.TypeOf(obj).String()
 }

@@ -1,0 +1,19 @@
+
+{{template "page.html" .}}
+<div class="row">
+    <div class="col-9">
+        <ul id="languagesList" >
+            {{range .Experience}}
+                <li class="animate bounce-left">{{.}}</li>
+            {{end}}
+        </ul>
+        
+    </div>
+    <div calss="col-3 ">
+            <img class="scrollme animateme" data-when="span" data-from="0.4" data-to="1" data-translatey="-400" data-easing="linear" src="/img/gopher.svg" />
+            <div class="scrollme animateme lang-img" data-when="span" data-from="0.8" data-to="0.3"  data-rotatez="180">
+                    <img class="animateme" data-when="span" data-from="0.7" data-to="0.1"  data-rotatez="-180" src="/img/Csharp_Logo.png" />
+                    <img class="animateme" data-when="span" data-from="0.7" data-to="0.1"  data-rotatez="180" src="/img/Gogophercolor.png" />
+            </div>
+    </div>
+</div>

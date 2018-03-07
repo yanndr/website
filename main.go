@@ -119,7 +119,8 @@ func loadTemplates(templateDir string) {
 		log.Fatal(err)
 	}
 
-	mainTemplate := template.New("main")
+	fm := template.FuncMap{"type": Type}
+	mainTemplate := template.New("main").Funcs(fm)
 
 	mainTemplate, err = mainTemplate.Parse(mainTmpl)
 	if err != nil {

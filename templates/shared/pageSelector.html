@@ -1,0 +1,13 @@
+{{range $index, $element := .}}
+<section class="page page{{$index}}" >
+    <div class="container animate bounce-up">
+    {{$type := type .}}
+    {{if eq "*viewmodel.Page" $type}}
+        {{template "page.html" .}}
+    {{end}}
+    {{if eq "*viewmodel.KnowledgePage" $type}}
+        {{template "knowledge.html" .}}
+    {{end}}
+    </div>
+</section>
+{{end}}

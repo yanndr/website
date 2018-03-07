@@ -51,14 +51,15 @@
         }
     }
     
-    .page1{
+    .page0{
        p{
            font-size: 1.5em;
        } 
        
     }
     
-    .page2{
+    .page1{
+        @extend .bkg-weather;
         .lang-img{
             img{
                 max-height: 50px;

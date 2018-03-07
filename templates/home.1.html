@@ -17,14 +17,7 @@
             </div> 
         </div>
     </section>
-    {{range $index, $element := .Pages}}
-
-        <section class="page page1 bkg-paisley" >
-            <div class="container animate bounce-up">
-                <h1 class="text-center">{{.Title}}</h1>
-                <p>{{.Text}}</p>
-            </div>        
-        </section>
-    {{end}}
+    
+    {{template "pageSelector.html" .Pages}}
 </main>
 {{ end }}

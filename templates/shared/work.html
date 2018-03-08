@@ -1,9 +1,16 @@
+{{define "work"}}
 <div class="row">
     <div class="col-9">
-        <h2>Form 2011 to 2018 I was working for Western Union</h2>
-        <img class="animate bounce-left" src="/img/wu_logo.png" />
+        <h1>{{.Title}}</h1>
+        <h2>{{.CompanyName}}</h2>
+        {{range .Text}}
+        <p>{{.}}</p>
+        {{end}}
+        
     </div>
     <div calss="col-3">
+        <img class="animate bounce-right" src="{{.CompanyLogoURL}}" />
         <p>Here some example</p>
     </div>
 </div>
+{{end}}

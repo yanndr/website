@@ -38,6 +38,7 @@ gulp.task('sass', function() {
 
 gulp.task('default', ['sass'], function() {
   gulp.watch(['src/scss/**/*.scss'], ['sass']);
+  gulp.watch(['src/js/**/*.js'], ['webpack']);
 });
 
 gulp.task('vendors',function(done){

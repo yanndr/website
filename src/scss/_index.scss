@@ -1,21 +1,19 @@
 #index-container{
 
     .intro{
-        background: #257A97;
+        background: $primary-color;
         
         overflow: hidden;
         z-index: 50;
     }
     
-    
     .introduction{
         color: $intro-color-text;
-        padding:10em 1em;
+        padding:5em 1em 10em 1em;
         background: url("/img/IMG_2733.JPG")  center center no-repeat;
         background-size: cover;
-        height:60vw;
+        height: 90vh;
         min-height: 440px;
-        max-height: 800px;
         img{
             max-width: 6em;
             border-radius:50%;
@@ -43,7 +41,7 @@
     .page{
         background-attachment: fixed;
         min-height: 300px;
-        padding: 8em 0;    
+        padding: 6em 0;    
     
         img{
             max-width: 200px;
@@ -52,7 +50,6 @@
     }
     
     .page0{
-        @extend .bkg-paisley;
         p{
            font-size: 1.5em;
         } 

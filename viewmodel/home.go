@@ -101,7 +101,7 @@ func new() *Home {
 				},
 				From:           from,
 				To:             to,
-				CompanyLogoURL: "/img/PGI_Logo.png",
+				CompanyLogoURL: "/img/PGi_Logo.png",
 				CompanyName:    "Premiere Global Services",
 			},
 		},

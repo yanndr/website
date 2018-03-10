@@ -1,4 +1,5 @@
 .vscode
+profile.json
 node_modules
 debug
 dist

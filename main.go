@@ -15,6 +15,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 	"github.com/kelseyhightower/envconfig"
 	"github.com/urfave/negroni"
+	"github.com/yanndr/website/model"
+	"github.com/yanndr/website/repository/file"
 	"github.com/yanndr/website/viewmodel"
 )
 
@@ -27,11 +29,22 @@ var Build = "No GitHash Provided"
 var templates map[string]*template.Template
 var mainTmpl = `{{define "main" }} {{ template "base" . }} {{ end }}`
 
+var p *model.Profile
+
 func main() {
 
 	var config struct {
 		Port      string `default:"8080"`
 		Templates string `default:"templates/"`
+	}
+
+	r, err := file.NewJSONProfileRepository("profile.json")
+	if err != nil {
+		log.Fatalf("could not set repository: %s", err)
+	}
+	p, err = r.Get()
+	if err != nil {
+		log.Fatalf("could not get profile: %s", err)
 	}
 
 	if err := envconfig.Process("", &config); err != nil {

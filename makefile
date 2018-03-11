@@ -30,3 +30,5 @@ publish:dependencies
 
 image: publish
 	docker build -t my-website .
+test:
+	go test -race ./...

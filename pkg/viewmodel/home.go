@@ -3,7 +3,7 @@ package viewmodel
 import (
 	"time"
 
-	"github.com/yanndr/website/model"
+	"github.com/yanndr/website/pkg/model"
 )
 
 type Home struct {

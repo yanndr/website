@@ -2,6 +2,7 @@
 profile.json
 node_modules
 debug
+debug.test
 dist
 website
 package-lock.json

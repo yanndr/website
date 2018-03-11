@@ -32,8 +32,8 @@ func (r *profileFileRepository) Store(p *model.Profile) error {
 
 func (r *profileFileRepository) Get() (*model.Profile, error) {
 	p := &model.Profile{}
-	r.mutex.RLock()
-	defer r.mutex.RUnlock()
+	r.mutex.Lock()
+	defer r.mutex.Unlock()
 	r.f.Seek(0, 0)
 	decoder := json.NewDecoder(r.f)
 	err := decoder.Decode(p)

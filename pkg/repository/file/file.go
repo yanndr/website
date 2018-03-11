@@ -16,7 +16,7 @@ const (
 )
 
 type profileFileRepository struct {
-	f        io.ReadWriter
+	f        io.ReadWriteSeeker
 	mutex    *sync.RWMutex
 	fileType fileType
 }
@@ -34,7 +34,7 @@ func (r *profileFileRepository) Get() (*model.Profile, error) {
 	p := &model.Profile{}
 	r.mutex.RLock()
 	defer r.mutex.RUnlock()
-
+	r.f.Seek(0, 0)
 	decoder := json.NewDecoder(r.f)
 	err := decoder.Decode(p)
 	if err != nil {
@@ -48,7 +48,7 @@ func (r *profileFileRepository) Get() (*model.Profile, error) {
 }
 
 //NewProfileRepository returns a new binary file profile repo.
-func NewProfileRepository(rw io.ReadWriter) model.ProfileRepository {
+func NewProfileRepository(rw io.ReadWriteSeeker) model.ProfileRepository {
 	return &profileFileRepository{
 		f:     rw,
 		mutex: &sync.RWMutex{},

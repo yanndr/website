@@ -36,55 +36,23 @@
         }
     }
     
-    .page{
-        background-attachment: fixed;
-        min-height: 300px;
-        padding: 6em 0;    
-    
-        img{
-            max-width: 200px;
-            max-height: 200px;
-        }
-    }
-    
-    .page0{
+    #bio{
         p{
            font-size: 1.5em;
         } 
     }
     
-    .page1{
+    #skills{
         background-color: $third-color;
         .lang-img{
             img{
                 max-height: 50px;
             }
         }
-        ul{
-            list-style: none;
-            
-            li{
-                font-size: 2em;
-                &:nth-child(1) {
-                    transform: translate3d(-200px,0px, 0px); 
-                    &.viewed{
-                        transform: translate3d(0px,0px, 0px); 
-                    }
-                }
-                &:nth-child(2) {
-                    transform: translate3d(-300px,0px, 0px); 
-                    &.viewed{
-                        transform: translate3d(0px,0px, 0px); 
-                    }
-                }
-                &:nth-child(3) {
-                    transform: translate3d(-400px,0px, 0px); 
-                    &.viewed{
-                        transform: translate3d(0px,0px, 0px); 
-                    }
-                }
-            }
-        }
+    }
+
+    .alt{
+        background-color: $third-color;
     }
 }
 

@@ -1,0 +1,28 @@
+
+.section{
+    background-attachment: fixed;
+    min-height: 300px;
+    padding: 6em 0;    
+
+    img{
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    ul{
+        list-style: none;
+        
+        li{
+            font-size: 1.2em;
+            @for $i from 1 through 10 {
+                &:nth-child(#{$i}) {
+                    transform: translate3d(-100px*$i,0px, 0px); 
+                    &.viewed{
+                        transform: translate3d(0px,0px, 0px); 
+                    }
+                }
+                .item-#{$i} { width: 2em * $i; }
+            }
+        }
+    }
+}

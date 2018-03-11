@@ -17,7 +17,6 @@ import (
 	"github.com/urfave/negroni"
 	"github.com/yanndr/website/model"
 	"github.com/yanndr/website/repository/file"
-	"github.com/yanndr/website/viewmodel"
 )
 
 //Version of the program.
@@ -31,6 +30,8 @@ var mainTmpl = `{{define "main" }} {{ template "base" . }} {{ end }}`
 
 var p *model.Profile
 
+const fileName = "profile.json"
+
 func main() {
 
 	var config struct {
@@ -38,13 +39,9 @@ func main() {
 		Templates string `default:"templates/"`
 	}
 
-	r, err := file.NewJSONProfileRepository("profile.json")
+	r, err := file.NewJSONProfileRepository(fileName)
 	if err != nil {
 		log.Fatalf("could not set repository: %s", err)
-	}
-	p, err = r.Get()
-	if err != nil {
-		log.Fatalf("could not get profile: %s", err)
 	}
 
 	if err := envconfig.Process("", &config); err != nil {
@@ -56,11 +53,21 @@ func main() {
 	//populateTemplates(config.Templates)
 
 	go func() {
+		var lastDataFileupdate = time.Unix(0, 0)
+		var needUpdate bool
 		for range time.Tick(300 * time.Millisecond) {
 			isUpdated := templateNeedUpdate(config.Templates)
 			if isUpdated {
 				log.Println("updating templates")
 				loadTemplates(config.Templates)
+			}
+
+			if needUpdate, lastDataFileupdate = fileNeedRefresh(fileName, lastDataFileupdate); needUpdate {
+				log.Println("refresh data ")
+				p, err = r.Get()
+				if err != nil {
+					log.Fatalf("could not get profile: %s", err)
+				}
 			}
 		}
 	}()
@@ -71,7 +78,7 @@ func main() {
 
 	mux.GET("/", home)
 	mux.GET("/home", home)
-	mux.GET("/about", about)
+	mux.GET("/resume", resume)
 
 	srv := &http.Server{Addr: ":" + config.Port, Handler: n}
 
@@ -99,7 +106,17 @@ func main() {
 
 func home(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
-	err := templates["home.1.html"].Execute(w, viewmodel.VM)
+	// vm := viewmodel.NewHome(p)
+	err := templates["home.html"].Execute(w, p)
+
+	if err != nil {
+		log.Println("error ", err)
+	}
+}
+
+func resume(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+
+	err := templates["resume.html"].Execute(w, p)
 
 	if err != nil {
 		log.Println("error ", err)
@@ -172,6 +189,15 @@ func templateNeedUpdate(basePath string) bool {
 		}
 	}
 	return needUpdate
+}
+
+func fileNeedRefresh(path string, lastupdate time.Time) (bool, time.Time) {
+
+	fi, err := os.Stat(path)
+	if err != nil {
+		log.Printf("could not get info for the file %s: %s", path, err)
+	}
+	return fi.ModTime().After(lastupdate), fi.ModTime()
 }
 
 func Type(obj interface{}) string {

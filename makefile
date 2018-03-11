@@ -1,5 +1,5 @@
 # This how we want to name the binary output
-BINARY=website
+BINARY=./dist/website
 
 # These are the values we want to pass for VERSION and BUILD
 VERSION=`cat version`
@@ -10,11 +10,11 @@ LDFLAGS=-ldflags "-X main.Version=${VERSION} -X main.Build=${BUILD}"
 
 # Builds the project
 build:dependencies
-	go build ${LDFLAGS} -o ${BINARY}
+	go build ${LDFLAGS} -o ${BINARY} ./cmd/website/
 
 # Builds the project
 linux:dependencies
-	GOOS=linux go build ${LDFLAGS} -o ${BINARY}
+	GOOS=linux go build  ${LDFLAGS} -o ${BINARY} ./cmd/website/
 
 dependencies:
 	gulp webpack
@@ -22,10 +22,9 @@ dependencies:
 	gulp vendors
 
 publish:dependencies
-	GOOS=linux go build ${LDFLAGS} -o ${BINARY}
+	GOOS=linux go build ${LDFLAGS} -o ${BINARY} ./cmd/website/
 	rm -fr dist
 	mkdir dist
-	cp website dist/
 	cp -r templates dist/templates
 	cp -r public dist/public
 

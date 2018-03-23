@@ -4,7 +4,7 @@ node_modules
 debug
 debug.test
 dist
-website
+./website
 package-lock.json
 public/css/
 public/js/
